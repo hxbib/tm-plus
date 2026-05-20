@@ -122,3 +122,8 @@ docker run -d \
 }
 ```
 
+---
+
+## Google Chrome Extensions
+
+Google Chrome extension to harvest tmpt cookies (tmpt cookie issued via Ticketmaster after ReCaptcha v3 Enterprise challenge is solved on browser with high trust score). There are 5 extensions, that all do the same exact thing. The only differences between them is the UI. I used Claude Design, v0 by Vercel, Replit, and Lovable. It was nice seeing all of their takes on the UI.
