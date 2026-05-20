@@ -1,0 +1,106 @@
+{
+  "monitor": {
+    "name": "Ticketmaster+",
+    "version": "v5.23.25",
+    "polling_interval": 123.0,
+    "status_check_interval": 230.0,
+    "heartbeat_interval": 8800,
+    "startup_webhook": true,
+    "heartbeat_webhook": true,
+    "shutdown_webhook": true
+  },
+  "attractions": [
+    {
+      "name": "New York Knicks Road Game Watch Party",
+      "attraction_id": "K8vZ917hbn7",
+      "tm_us_id": "3014642",
+      "artist_url": "https://www.ticketmaster.com/new-york-knicks-road-game-watch-party-tickets/artist/3014642",
+      "venue_name": "Madison Square Garden",
+      "enabled": true
+    },
+    {
+      "name": "New York Knicks Home Game Watch Party",
+      "attraction_id": "K8vZ917rCEV",
+      "tm_us_id": "3725554",
+      "artist_url": "https://www.ticketmaster.com/new-york-knicks-home-game-watch-party-tickets/artist/3725554",
+      "venue_name": "Radio City Music Hall",
+      "enabled": true
+    }
+  ],
+  "discord": {
+    "webhook_url": "yourwebhookurlgoeshere",
+    "error_webhook_url": "yourwebhookurlgoeshere",
+    "username": "Ticketmaster+",
+    "avatar_url": "https://i.imgur.com/iJQfWGP.png",
+    "queue_retry_interval": 25,
+    "max_retries": 19,
+    "rate_limit_buffer": 4.5
+  },
+  "api": {
+    "keys": [
+      "secretsaucegoeshere"
+    ],
+    "key_cooldown": 5.5,
+    "request_timeout": 55,
+    "max_retries": 5,
+    "retry_base_delay": 30.0,
+    "retry_max_delay": 180.0
+  },
+  "auto_reserve": {
+    "enabled": true,
+    "quantity": 2,
+    "max_reserves_per_event": 10,
+    "sort": "quality",
+    "prefer_lower_sections": true,
+    "ndcd_cookie": "ndcdcookiegoesherelilbro",
+    "tmpt_cookie_bank": [
+      "tmptcookiesgohere"
+    ],
+    "preferred_seats": [
+      {
+        "section": "107",
+        "row": "12",
+        "seats": [
+          "7",
+          "8"
+        ],
+        "price_zone": "4",
+        "secname": "P4"
+      },
+      {
+        "section": "211",
+        "row": "1",
+        "seats": [
+          "11",
+          "12"
+        ],
+        "price_zone": "3",
+        "secname": "P3"
+      }
+    ]
+  },
+  "cookie_refresh": {
+    "enabled": false,
+    "interval_minutes": 23
+  },
+  "notifications": {
+    "new_event": true,
+    "event_removed": true,
+    "status_change": true,
+    "price_change": true,
+    "sale_date_change": true,
+    "auto_reserve": true,
+    "error_alerts": true,
+    "startup": true,
+    "heartbeat": true,
+    "shutdown": true
+  },
+  "logging": {
+    "level": "INFO",
+    "file_logging": true,
+    "console_colors": true,
+    "log_api_responses": false,
+    "log_rotation_max_bytes": 10485760,
+    "log_rotation_backup_count": 5
+  }
+}

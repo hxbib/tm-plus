@@ -1,0 +1,2 @@
+curl-cffi==0.7.1
+aiohttp>=3.11.0,<4

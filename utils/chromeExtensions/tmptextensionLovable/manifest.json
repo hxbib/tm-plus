@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Ticketmaster+ Cookie Harvester",
+  "version": "5.23.25",
+  "author": "Sadman Habib",
+  "description": "Cookie Harvester for tmpt cookies",
+  "minimum_chrome_version": "114",
+  "permissions": ["cookies", "tabs", "storage", "alarms"],
+  "host_permissions": [
+    "*://*.ticketmaster.com/*",
+    "*://auth.ticketmaster.com/*",
+    "*://identity.ticketmaster.com/*",
+    "http://127.0.0.1:18731/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Ticketmaster+ Cookie Harvester",
+    "default_icon": {
+      "16": "icons/tm16.png",
+      "32": "icons/tm32.png",
+      "48": "icons/tm48.png",
+      "128": "icons/tm128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/tm16.png",
+    "32": "icons/tm32.png",
+    "48": "icons/tm48.png",
+    "128": "icons/tm128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'none'; form-action 'none'"
+  }
+}

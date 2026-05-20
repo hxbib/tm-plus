@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ticketmaster+ Cookie Harvester</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --paper:#f2efe6;
+    --paper2:#ebe7da;
+    --ink:#0a0a0a;
+    --ink2:#2a2a2a;
+    --ink3:#5a5a55;
+    --ink4:#8a877e;
+    --line:#0a0a0a;
+    --line2:rgba(10,10,10,.18);
+    --line3:rgba(10,10,10,.08);
+    --red:#c4231a;
+    --green:#1f6f33;
+    --amber:#a86b0c;
+    --hl:#fff060;
+    --mono:ui-monospace,"SF Mono","Menlo","Consolas","DejaVu Sans Mono",monospace;
+  }
+  html,body{background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:11px;line-height:1.35;-webkit-font-smoothing:antialiased}
+  body{width:380px;overflow:hidden;padding:0}
+
+  .hdr{display:flex;align-items:flex-end;justify-content:space-between;padding:10px 12px 8px;border-bottom:2px solid var(--line);background:var(--paper2)}
+  .brand{display:flex;align-items:center;gap:8px}
+  .mark{width:22px;height:22px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;background:transparent}
+  .mark img{width:100%;height:100%;object-fit:contain;display:block}
+  .ttl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;line-height:1}
+  .sub{font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px}
+  .ver{font-size:8px;font-weight:700;letter-spacing:1px;color:var(--ink3);border:1px solid var(--line2);padding:2px 5px}
+
+  .strip{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-bottom:1px dashed var(--line2);background:var(--paper)}
+  .stat{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+  .dot{width:7px;height:7px;border:1.5px solid var(--ink)}
+  .dot.idle{background:transparent}
+  .dot.banked{background:var(--ink)}
+  .dot.run{background:var(--green);border-color:var(--green);animation:bl .9s steps(2) infinite}
+  .dot.done{background:var(--green);border-color:var(--green)}
+  .dot.error{background:var(--red);border-color:var(--red)}
+  @keyframes bl{50%{opacity:.2}}
+  .bank-c{font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+  .bank-l{font-size:8px;color:var(--ink3);letter-spacing:1.2px;text-transform:uppercase;margin-left:4px}
+
+  .mt{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px dashed var(--line2)}
+  .m{padding:8px 6px;text-align:center;border-right:1px dashed var(--line2);position:relative}
+  .m:last-child{border-right:none}
+  .mv{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px;line-height:1}
+  .mv.dim{color:var(--ink4)}
+  .ml{font-size:7px;color:var(--ink3);letter-spacing:1.3px;text-transform:uppercase;margin-top:4px;font-weight:700}
+
+  .pg{padding:9px 12px;border-bottom:1px dashed var(--line2)}
+  .pg-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+  .pg-l{font-size:8px;letter-spacing:1.5px;color:var(--ink3);text-transform:uppercase;font-weight:700}
+  .pg-p{font-size:11px;font-weight:800;font-variant-numeric:tabular-nums}
+  .pg-bar{height:10px;border:1.5px solid var(--ink);position:relative;background:var(--paper2);overflow:hidden}
+  .pg-f{position:absolute;inset:0;width:0%;background:repeating-linear-gradient(45deg,var(--ink) 0 4px,transparent 4px 7px);transition:width .35s cubic-bezier(.4,0,.2,1)}
+  .pg-f.ok{background:repeating-linear-gradient(45deg,var(--green) 0 4px,transparent 4px 7px)}
+  .pg-i{display:flex;justify-content:space-between;margin-top:4px;font-size:8px;color:var(--ink3);font-variant-numeric:tabular-nums;letter-spacing:.5px}
+
+  .ctl{display:grid;grid-template-columns:auto 1fr;gap:6px;padding:9px 12px;border-bottom:2px solid var(--line);background:var(--paper2)}
+  .tgt{display:flex;align-items:center;gap:6px;border:1.5px solid var(--ink);padding:0 8px;background:var(--paper)}
+  .tgt-l{font-size:8px;letter-spacing:1.3px;text-transform:uppercase;color:var(--ink3);font-weight:700}
+  .tgt-i{width:52px;border:none;background:transparent;font-family:var(--mono);font-size:12px;font-weight:800;text-align:center;color:var(--ink);outline:none;padding:6px 0;font-variant-numeric:tabular-nums}
+  .tgt-i::-webkit-outer-spin-button,.tgt-i::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .btn{border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:0 10px;cursor:pointer;transition:transform .08s,box-shadow .08s,background .15s;box-shadow:3px 3px 0 var(--ink);user-select:none}
+  .btn:hover:not(:disabled){background:var(--paper);color:var(--ink)}
+  .btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:3px 3px 0 var(--line2)}
+  .btn.stop{background:var(--red);border-color:var(--red);box-shadow:3px 3px 0 var(--red)}
+  .btn.stop:hover:not(:disabled){background:var(--paper);color:var(--red)}
+  .hidden{display:none!important}
+
+  .pn{border-bottom:1px dashed var(--line2)}
+  .pn-h{display:flex;align-items:center;justify-content:space-between;padding:5px 12px;background:var(--paper2);border-bottom:1px dashed var(--line2)}
+  .pn-t{font-size:8px;color:var(--ink2);text-transform:uppercase;letter-spacing:1.6px;font-weight:800}
+  .pn-r{display:flex;align-items:center;gap:8px}
+  .pn-m{font-size:8px;color:var(--ink3);font-variant-numeric:tabular-nums;letter-spacing:.8px}
+  .hb{background:none;border:none;cursor:pointer;color:var(--ink3);padding:1px;display:flex;align-items:center;transition:color .12s,transform .08s}
+  .hb svg{width:11px;height:11px;display:block}
+  .hb:hover{color:var(--ink)}
+  .hb.danger:hover{color:var(--red)}
+  .hb:active{transform:scale(.85)}
+  .sep{width:1px;height:11px;background:var(--line2)}
+
+  .log{height:84px;overflow-y:auto;padding:3px 0;font-size:9.5px;line-height:1.5}
+  .bank{height:64px;overflow-y:auto;padding:3px 0;font-size:9px;line-height:1.45}
+  .log::-webkit-scrollbar,.bank::-webkit-scrollbar{width:6px}
+  .log::-webkit-scrollbar-track,.bank::-webkit-scrollbar-track{background:transparent}
+  .log::-webkit-scrollbar-thumb,.bank::-webkit-scrollbar-thumb{background:var(--line2);border:2px solid var(--paper)}
+  .le{padding:0 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+  .le.found{color:var(--green);font-weight:700}
+  .le.err{color:var(--red);font-weight:700}
+  .le.fail{color:var(--amber)}
+  .le.hl{color:var(--ink);font-weight:700}
+  .le.cycle{color:var(--ink3)}
+  .le.sep{color:var(--ink4);text-align:center}
+  .be{padding:1px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .be .idx{color:var(--ink4);margin-right:6px;display:inline-block;min-width:24px}
+  .be .val{color:var(--ink)}
+  .empty{color:var(--ink4);text-align:center;padding:18px 8px;font-style:italic;font-size:9px;letter-spacing:.5px}
+
+  .ft{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:var(--paper2);border-top:2px solid var(--line)}
+  .st{display:flex;gap:10px}
+  .si{display:flex;align-items:center;gap:4px;font-size:8px;font-weight:700;color:var(--ink3);letter-spacing:.5px;font-variant-numeric:tabular-nums;text-transform:uppercase}
+  .sq{width:5px;height:5px;border:1px solid var(--ink)}
+  .sq.g{background:var(--green);border-color:var(--green)}
+  .sq.y{background:var(--amber);border-color:var(--amber)}
+  .sq.r{background:var(--red);border-color:var(--red)}
+  .credit{font-size:7.5px;color:var(--ink4);letter-spacing:1.2px;text-transform:uppercase;font-weight:700}
+
+  .toast{position:fixed;bottom:10px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);padding:6px 14px;font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;box-shadow:4px 4px 0 var(--red);transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .22s;opacity:0;z-index:99;pointer-events:none;white-space:nowrap}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .toast.err{box-shadow:4px 4px 0 var(--red)}
+  .toast.ok{box-shadow:4px 4px 0 var(--green)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+  <div class="hdr">
+    <div class="brand">
+      <div class="mark"><img src="icons/tm128.png" alt="t+"></div>
+      <div>
+        <div class="ttl">Ticketmaster+</div>
+        <div class="sub">Cookie Harvester</div>
+      </div>
+    </div>
+    <div class="ver">v5.23.25</div>
+  </div>
+
+  <div class="strip">
+    <div class="stat"><div class="dot idle" id="dot"></div><span id="pill-t">Ready</span></div>
+    <div><span class="bank-c" id="bank-c">0</span><span class="bank-l">in bank</span></div>
+  </div>
+
+  <div class="mt">
+    <div class="m"><div class="mv dim" id="m-rate">—</div><div class="ml">PER MIN</div></div>
+    <div class="m"><div class="mv dim" id="m-eta">—</div><div class="ml">ETA</div></div>
+    <div class="m"><div class="mv dim" id="m-elapsed">—</div><div class="ml">ELAPSED</div></div>
+    <div class="m"><div class="mv dim" id="m-cycles">0</div><div class="ml">CYCLES</div></div>
+  </div>
+
+  <div class="pg">
+    <div class="pg-h"><span class="pg-l">Progress</span><span class="pg-p" id="pct">0%</span></div>
+    <div class="pg-bar"><div class="pg-f" id="fill"></div></div>
+    <div class="pg-i"><span id="p-left">0 / 100</span><span id="p-right">—</span></div>
+  </div>
+
+  <div class="ctl">
+    <div class="tgt"><span class="tgt-l">TGT</span><input type="number" class="tgt-i" id="tgt" value="100" min="1" max="5000" inputmode="numeric"></div>
+    <button class="btn" id="start-btn">▶ Start Harvest</button>
+    <button class="btn stop hidden" id="stop-btn" style="grid-column:1/-1">■ Stop Harvest</button>
+  </div>
+
+  <div class="pn">
+    <div class="pn-h">
+      <span class="pn-t">▸ Activity Log</span>
+      <div class="pn-r">
+        <span class="pn-m" id="log-m">0</span>
+        <div class="sep"></div>
+        <button class="hb" id="copy-log-btn" title="Copy log" aria-label="Copy log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        <button class="hb danger" id="clear-log-btn" title="Clear logs" aria-label="Clear logs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/></svg></button>
+      </div>
+    </div>
+    <div class="log" id="log-b"></div>
+  </div>
+
+  <div class="pn">
+    <div class="pn-h">
+      <span class="pn-t">▸ Cookie Bank</span>
+      <div class="pn-r">
+        <span class="pn-m" id="bank-m">0 stored</span>
+        <div class="sep"></div>
+        <button class="hb" id="copy-btn" title="Copy bank JSON" aria-label="Copy bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        <button class="hb" id="export-btn" title="Export JSON" aria-label="Export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button>
+        <button class="hb" id="inject-btn" title="Inject to Config" aria-label="Inject to Config"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="hb danger" id="clear-btn" title="Clear bank" aria-label="Clear bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/></svg></button>
+      </div>
+    </div>
+    <div class="bank" id="bank-b"><div class="empty">// no cookies yet</div></div>
+  </div>
+
+  <div class="ft">
+    <div class="st">
+      <div class="si"><div class="sq g"></div><span id="s-ok">0</span>OK</div>
+      <div class="si"><div class="sq y"></div><span id="s-dup">0</span>DUP</div>
+      <div class="si"><div class="sq r"></div><span id="s-fail">0</span>ERR</div>
+    </div>
+    <div class="credit">by Habib</div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

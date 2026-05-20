@@ -1,0 +1,948 @@
+{
+    "telemetry": {
+      "mouse_events": [],
+      "touch_events": []
+    },
+    "bas_detection": {},
+    "sitekey": "",
+    "static_num": 1,
+    "property_checks": [
+      [
+          "vendorSub",
+          ""
+      ],
+      [
+          "productSub",
+          ""
+      ],
+      [
+          "vendor",
+          ""
+      ],
+      [
+          "maxTouchPoints",
+          ""
+      ],
+      [
+          "scheduling",
+          ""
+      ],
+      [
+          "userActivation",
+          ""
+      ],
+      [
+          "doNotTrack",
+          ""
+      ],
+      [
+          "geolocation",
+          ""
+      ],
+      [
+          "connection",
+          ""
+      ],
+      [
+          "plugins",
+          ""
+      ],
+      [
+          "mimeTypes",
+          ""
+      ],
+      [
+          "pdfViewerEnabled",
+          ""
+      ],
+      [
+          "webkitTemporaryStorage",
+          ""
+      ],
+      [
+          "webkitPersistentStorage",
+          ""
+      ],
+      [
+          "windowControlsOverlay",
+          ""
+      ],
+      [
+          "hardwareConcurrency",
+          ""
+      ],
+      [
+          "cookieEnabled",
+          ""
+      ],
+      [
+          "appCodeName",
+          ""
+      ],
+      [
+          "appName",
+          ""
+      ],
+      [
+          "appVersion",
+          ""
+      ],
+      [
+          "platform",
+          ""
+      ],
+      [
+          "product",
+          ""
+      ],
+      [
+          "userAgent",
+          ""
+      ],
+      [
+          "language",
+          ""
+      ],
+      [
+          "languages",
+          ""
+      ],
+      [
+          "onLine",
+          ""
+      ],
+      [
+          "webdriver",
+          ""
+      ],
+      [
+          "getGamepads",
+          ""
+      ],
+      [
+          "javaEnabled",
+          ""
+      ],
+      [
+          "sendBeacon",
+          ""
+      ],
+      [
+          "vibrate",
+          ""
+      ],
+      [
+          "deprecatedRunAdAuctionEnforcesKAnonymity",
+          ""
+      ],
+      [
+          "protectedAudience",
+          ""
+      ],
+      [
+          "bluetooth",
+          ""
+      ],
+      [
+          "storageBuckets",
+          ""
+      ],
+      [
+          "clipboard",
+          ""
+      ],
+      [
+          "credentials",
+          ""
+      ],
+      [
+          "keyboard",
+          ""
+      ],
+      [
+          "managed",
+          ""
+      ],
+      [
+          "mediaDevices",
+          ""
+      ],
+      [
+          "storage",
+          ""
+      ],
+      [
+          "serviceWorker",
+          ""
+      ],
+      [
+          "virtualKeyboard",
+          ""
+      ],
+      [
+          "wakeLock",
+          ""
+      ],
+      [
+          "deviceMemory",
+          ""
+      ],
+      [
+          "userAgentData",
+          ""
+      ],
+      [
+          "cookieDeprecationLabel",
+          ""
+      ],
+      [
+          "login",
+          ""
+      ],
+      [
+          "ink",
+          ""
+      ],
+      [
+          "mediaCapabilities",
+          ""
+      ],
+      [
+          "hid",
+          ""
+      ],
+      [
+          "locks",
+          ""
+      ],
+      [
+          "gpu",
+          ""
+      ],
+      [
+          "mediaSession",
+          ""
+      ],
+      [
+          "permissions",
+          ""
+      ],
+      [
+          "presentation",
+          ""
+      ],
+      [
+          "usb",
+          ""
+      ],
+      [
+          "xr",
+          ""
+      ],
+      [
+          "serial",
+          ""
+      ],
+      [
+          "adAuctionComponents",
+          ""
+      ],
+      [
+          "runAdAuction",
+          ""
+      ],
+      [
+          "canLoadAdAuctionFencedFrame",
+          ""
+      ],
+      [
+          "canShare",
+          ""
+      ],
+      [
+          "share",
+          ""
+      ],
+      [
+          "clearAppBadge",
+          ""
+      ],
+      [
+          "getBattery",
+          ""
+      ],
+      [
+          "getUserMedia",
+          ""
+      ],
+      [
+          "requestMIDIAccess",
+          ""
+      ],
+      [
+          "requestMediaKeySystemAccess",
+          ""
+      ],
+      [
+          "setAppBadge",
+          ""
+      ],
+      [
+          "webkitGetUserMedia",
+          ""
+      ],
+      [
+          "clearOriginJoinedAdInterestGroups",
+          ""
+      ],
+      [
+          "createAuctionNonce",
+          ""
+      ],
+      [
+          "joinAdInterestGroup",
+          ""
+      ],
+      [
+          "leaveAdInterestGroup",
+          ""
+      ],
+      [
+          "updateAdInterestGroups",
+          ""
+      ],
+      [
+          "deprecatedReplaceInURN",
+          ""
+      ],
+      [
+          "deprecatedURNToURL",
+          ""
+      ],
+      [
+          "getInstalledRelatedApps",
+          ""
+      ],
+      [
+          "getInterestGroupAdAuctionData",
+          ""
+      ],
+      [
+          "registerProtocolHandler",
+          ""
+      ],
+      [
+          "unregisterProtocolHandler",
+          ""
+      ]
+  ],
+    "language": "de-DE",
+    "languages": {
+      "disabled": false,
+      "list": [
+        "de-DE"
+    ]
+    },
+    "timings": {
+      "current_time": null,
+      "last_modification_time": null,
+      "performance_now": null,
+      "document_timeline_current_time": null,
+      "performane_navigation_start": null
+    },
+    "mime_types": [
+      [
+        "0",
+        {
+          "suffix": "pdf",
+          "content_type": "application/pdf",
+          "plugin_name": "internal-pdf-viewer"
+        }
+      ],
+      [
+        "1",
+        {
+          "suffix": "pdf",
+          "content_type": "text/pdf",
+          "plugin_name": "internal-pdf-viewer"
+        }
+      ],
+      [
+        "application/pdf",
+        {
+          "suffix": "pdf",
+          "content_type": "application/pdf",
+          "plugin_name": "internal-pdf-viewer"
+        }
+      ],
+      [
+        "text/pdf",
+        {
+          "suffix": "pdf",
+          "content_type": "text/pdf",
+          "plugin_name": "internal-pdf-viewer"
+        }
+      ]
+    ],
+    "screen": {
+      "width": 1920,
+      "height": 1080,
+      "availHeight": 1032,
+      "availLeft": 0,
+      "availTop": 0,
+      "availWidth": 1920,
+      "pixelDepth": 24,
+      "innerWidth": 1920,
+      "innerHeight": 911,
+      "outerWidth": 1920,
+      "outerHeight": 1032,
+      "pixelRatio": 1,
+      "orientation_type": "landscape-primary",
+      "screenX": 0,
+      "screenY": 0
+    },
+    "timezone_offset": 1,
+    "indexed_db": true,
+    "add_behavior": false,
+    "bitwise_function": null,
+    "open_database": false,
+    "cpu_class": "unknown",
+    "platform": "Win32",
+    "do_not_track": "unknown",
+    "plugins_list": "Chrome PDF Viewer::Portable Document Format::application/pdf~pdf,text/pdf~pdf;Chromium PDF Viewer::Portable Document Format::application/pdf~pdf,text/pdf~pdf;Microsoft Edge PDF Viewer::Portable Document Format::application/pdf~pdf,text/pdf~pdf;PDF Viewer::Portable Document Format::application/pdf~pdf,text/pdf~pdf;WebKit built-in PDF::Portable Document Format::application/pdf~pdf,text/pdf~pdf",
+    "plugin_functions_names": {
+      "namedItem": "namedItem",
+      "item": "item",
+      "refresh": "refresh"
+    },
+    "canvas": {
+      "point_in_path": true,
+      "webp_format": true,
+      "globalCompositeOperation_is_screen": true,
+      "hash": "6bcd7d8cf9dd30bb0b4378d8f4977c0b49bccdc8"
+    },
+    "image": {
+      "dataURL": "AAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAAA9JREFUGFdjZEADjKQLAAAA7gAFLaYDxAAAAABJRU5ErkJggg=="
+    },
+    "web_gl": {
+      "hash": "2e6ef05efde758669794f94cc6409b5c9b253e46",
+      "supportedExtensions": "EXT_clip_control;EXT_color_buffer_float;EXT_color_buffer_half_float;EXT_conservative_depth;EXT_depth_clamp;EXT_float_blend;EXT_polygon_offset_clamp;EXT_texture_compression_bptc;EXT_texture_compression_rgtc;EXT_texture_filter_anisotropic;EXT_texture_mirror_clamp_to_edge;EXT_texture_norm16;NV_shader_noperspective_interpolation;OES_draw_buffers_indexed;OES_sample_variables;OES_shader_multisample_interpolation;OES_texture_float_linear;OVR_multiview2;WEBGL_clip_cull_distance;WEBGL_compressed_texture_astc;WEBGL_compressed_texture_etc;WEBGL_compressed_texture_etc1;WEBGL_compressed_texture_s3tc;WEBGL_compressed_texture_s3tc_srgb;WEBGL_debug_renderer_info;WEBGL_debug_shaders;WEBGL_lose_context;WEBGL_multi_draw;WEBGL_polygon_mode;WEBGL_stencil_texturing",
+      "line_width_range": [
+        1,
+        1
+      ],
+      "point_size_range": [
+        1,
+        1023
+      ],
+      "alpha_bits": 8,
+      "antialias": true,
+      "blue_bits": 8,
+      "depth_bits": 24,
+      "green_bits": 8,
+      "max_anisotropy": 16,
+      "max_combined_texture_image_units": 64,
+      "max_cube_map_texture_size": 16384,
+      "max_fragment_uniform_vectors": 4096,
+      "max_renderbuffer_size": 8192,
+      "max_texture_image_units": 32,
+      "max_texture_size": 8192,
+      "max_varying_vectors": 31,
+      "max_vertex_attribs": 16,
+      "max_vertex_texture_image_units": 32,
+      "max_vertex_uniform_vectors": 4096,
+      "max_viewport_dims": [
+        8192,
+        8192
+      ],
+      "red_bits": 8,
+      "renderer": "WebKit WebGL",
+      "shading_language_version": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)",
+      "stencil_bits": 0,
+      "vendor": "WebKit",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "vertex_high_float_precision": 23,
+      "vertex_high_float_rangeMin": 127,
+      "vertex_high_float_rangeMax": 127,
+      "vertex_medium_float_precision": 10,
+      "vertex_medium_float_rangeMin": 15,
+      "vertex_medium_float_rangeMax": 15,
+      "vertex_low_float_precision": 10,
+      "vertex_low_float_rangeMin": 15,
+      "vertex_low_float_rangeMax": 15,
+      "fragment_high_float_precision": 23,
+      "fragment_high_float_rangeMin": 127,
+      "fragment_high_float_rangeMax": 127,
+      "fragment_medium_float_precision": 10,
+      "fragment_medium_float_rangeMin": 15,
+      "fragment_medium_float_rangeMax": 15,
+      "fragment_low_float_precision": 10,
+      "fragment_low_float_rangeMin": 15,
+      "fragment_low_float_rangeMax": 15,
+      "vertex_high_int_precision": 0,
+      "vertex_high_int_rangeMin": 31,
+      "vertex_high_int_rangeMax": 30,
+      "vertex_medium_int_precision": 0,
+      "vertex_medium_int_rangeMin": 15,
+      "vertex_medium_int_rangeMax": 14,
+      "vertex_low_int_precision": 0,
+      "vertex_low_int_rangeMin": 15,
+      "vertex_low_int_rangeMax": 14,
+      "fragment_high_int_precision": 0,
+      "fragment_high_int_rangeMin": 31,
+      "fragment_high_int_rangeMax": 30,
+      "fragment_medium_int_precision": 0,
+      "fragment_medium_int_rangeMin": 15,
+      "fragment_medium_int_rangeMax": 14,
+      "fragment_low_int_precision": 0,
+      "fragment_low_int_rangeMin": 15,
+      "fragment_low_int_rangeMax": 14,
+      "unmasked_vendor": "Google Inc. (Google)",
+      "unmasked_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    "small_image": {
+      "dataURL": "AAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAAA9JREFUGFdjZEADjKQLAAAA7gAFLaYDxAAAAABJRU5ErkJggg=="
+    },
+    "web_gl_prototypes": {
+      "getParameter_name": "getParameter",
+      "getParameter_exists": true
+    },
+    "touch_data": {
+      "maxTouchPoints": 0,
+      "can_create_touchEvent": false,
+      "ontouchstart_unequal_undefined": false
+    },
+    "video_checks": {
+      "can_play_ogg": "nope",
+      "can_play_mp4": "probably",
+      "can_play_webm": "probably"
+    },
+    "audio_checks": {
+      "can_play_ogg": "probably",
+      "can_play_mpeg": "probably",
+      "can_play_wav": "probably",
+      "can_play_xm4a": "maybe",
+      "can_play_empty": "nope",
+      "can_play_mp4": "probably"
+    },
+    "vendor": "Google Inc.",
+    "product": "Gecko",
+    "productSub": "20030107",
+    "chrome_properties": {
+      "is_internet_explorer": false,
+      "chrome_app_checks": {
+        "loadTimes_is_native": true,
+        "chrome_app_functions": [
+          [
+              "isInstalled",
+              "vwec"
+          ],
+          [
+              "getDetails",
+              "vwec"
+          ],
+          [
+              "getIsInstalled",
+              "vwec"
+          ],
+          [
+              "installState",
+              "vwec"
+          ],
+          [
+              "runningState",
+              "vwec"
+          ],
+          [
+              "InstallState",
+              "vwec"
+          ],
+          [
+              "RunningState",
+              "vwec"
+          ]
+      ],
+        "chrome_app_properties": [
+          [
+              "loadTimes.length",
+              0
+          ],
+          [
+              "loadTimes.name",
+              1
+          ],
+          [
+              "loadTimes.prototype",
+              1
+          ],
+          [
+              "csi.length",
+              0
+          ],
+          [
+              "csi.name",
+              1
+          ],
+          [
+              "csi.prototype",
+              1
+          ],
+          [
+              "app.isInstalled",
+              0
+          ],
+          [
+              "app.getDetails",
+              2
+          ],
+          [
+              "app.getIsInstalled",
+              2
+          ],
+          [
+              "app.installState",
+              2
+          ],
+          [
+              "app.runningState",
+              2
+          ],
+          [
+              "app.InstallState",
+              3
+          ],
+          [
+              "app.RunningState",
+              3
+          ]
+      ]
+      },
+      "webdriver": false,
+      "is_chrome": true,
+      "connection_rtt": 0,
+      "duckduckgo": null
+    },
+    "random_properties": {
+      "history_length": 2,
+      "hardware_concurrency": 16,
+      "top_unequal_self": false,
+      "getBattery_exists": true,
+      "console_debug_name": "debug",
+      "debug_exists": true,
+      "phantom": false,
+      "callPhantom": false,
+      "empty_array": [],
+      "window_presistent": 1,
+      "window_temporary": 0,
+      "performanceObserver": {
+        "supportedEntryTypes": [
+          "element",
+          "event",
+          "first-input",
+          "largest-contentful-paint",
+          "layout-shift",
+          "long-animation-frame",
+          "longtask",
+          "mark",
+          "measure",
+          "navigation",
+          "paint",
+          "resource",
+          "visibility-state"
+        ]
+      },
+      "sentryInWindow": false
+    },
+    "protocol": {
+      "location_protocol": "https:"
+    },
+    "fonts": [
+      "Calibri",
+      "Century",
+      "Haettenschweiler",
+      "Leelawadee",
+      "Marlett",
+      "Pristina"
+    ],
+    "scripts": {
+      "count": 1,
+      "non_script_count": 3,
+      "in_documentElement": [],
+      "in_head": [
+        {
+          "src": "https://www.immobilienscout24.de/assets/immo-1-17"
+        }
+    ],
+      "in_body": []
+    },
+    "executed_functions": {
+      "func_1": "ires that 'this' be a Function",
+      "func_2": "ires that 'this' be a Function",
+      "func_3": false,
+      "func_4": ":@\b\u0017?ZnH_c\u0005\"\u0005]^I|l\u000e$>"
+    },
+    "window_property_descriptors": "WritableStreamDefaultController;;;WindowControlsOverlayGeometryChangeEvent;;;VirtualKeyboardGeometryChangeEvent;;;TransformStreamDefaultController;;;SVGComponentTransferFunctionElement;;;SVGAnimatedPreserveAspectRatio;;;ReadableStreamDefaultController;;;RTCPeerConnectionIceErrorEvent;;;OffscreenCanvasRenderingContext2D;;;NavigationCurrentEntryChangeEvent;;;MediaStreamAudioDestinationNode;;;ContentVisibilityAutoStateChangeEvent;;;BrowserCaptureMediaStreamTrack;;;oncontentvisibilityautostatechange;;;WebTransportBidirectionalStream;;;WebTransportDatagramDuplexStream;;;AuthenticatorAssertionResponse;;;AuthenticatorAttestationResponse;;;BluetoothCharacteristicProperties;;;BluetoothRemoteGATTCharacteristic;;;PresentationConnectionAvailableEvent;;;PresentationConnectionCloseEvent;;;USBIsochronousInTransferPacket;;;USBIsochronousInTransferResult;;;USBIsochronousOutTransferPacket;;;USBIsochronousOutTransferResult;;;PerformanceLongAnimationFrameTiming;;;webkitResolveLocalFileSystemURL;;;reese84InternalProtectionLoaded",
+    "window_30_property_names": [
+      "correct_ua",
+      "x_url_c",
+      "GoogleAnalyt$",
+      "ga",
+      "usaFunc",
+      "usaId",
+      "lightningjs",
+      "usabilla_liv$",
+      "customUsabil$",
+      "_fs_ready",
+      "pushValuesTo$",
+      "pushValuesTo$",
+      "usblCallBack",
+      "otStubData",
+      "postscribe",
+      "google_tag_m$",
+      "winbackDelta",
+      "getTxType",
+      "getConfig",
+      "LogUtils",
+      "recaptcha",
+      "closure_lm_9$",
+      "gaGlobal",
+      "gaplugins",
+      "gaData",
+      "Optanon",
+      "OneTrust",
+      "OnetrustActi$",
+      "OptanonActiv$",
+      "divolte"
+  ],
+    "visual_viewport": {
+      "width": 1920,
+      "height": 911,
+      "scale": 1
+    },
+    "html_create_function_names": [
+      [
+        0,
+        "createAttribute"
+      ],
+      [
+        1,
+        "createElement"
+      ],
+      [
+        2,
+        "createElementNS"
+      ],
+      [
+        3,
+        null
+      ],
+      [
+        4,
+        null
+      ],
+      [
+        5,
+        null
+      ]
+    ],
+    "high_surrogate": [],
+    "skip_reese_expiration": false,
+    "created_divs": {
+      "block_1": [
+        [
+          "SET_KEY",
+          "n",
+          "n",
+          true
+        ],
+        [
+          "SET_KEY",
+          "s",
+          "s",
+          true
+        ],
+        [
+          "SET_KEY",
+          "s",
+          "s",
+          true
+        ],
+        [
+          "SET_KEY",
+          "n",
+          "n",
+          true
+        ],
+        [
+          "SET_KEY",
+          "s",
+          "s",
+          true
+        ],
+        [
+          "SET_KEY",
+          "o",
+          "u",
+          false
+        ]
+      ],
+      "block_2": [
+        [
+          "SET_KEY",
+          "n",
+          "n",
+          true
+        ],
+        [
+          "SET_KEY",
+          "s",
+          "s",
+          true
+        ],
+        [
+          "SET_KEY",
+          "s",
+          "s",
+          true
+        ],
+        [
+          "SET_KEY",
+          "n",
+          "n",
+          true
+        ],
+        [
+          "SET_KEY",
+          "s",
+          "s",
+          true
+        ],
+        [
+          "SET_KEY",
+          "o",
+          "u",
+          false
+        ]
+      ]
+    },
+    "typeof_checks": [
+      {
+        "type_of": "function",
+        "stringified": "function toString() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "toString"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function stringify() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "stringify"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function OwnPropertyDescriptor() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "OwnPropertyDescriptor"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function call() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "call"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function apply() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "apply"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function bind() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "bind"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function getParameter() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "getParameter"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function getBattery() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "getBattery"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function debug() { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": "debug"
+      },
+      {
+        "type_of": "function",
+        "stringified": "function () { [native code] }",
+        "stringified_no_name": "function () { [native code] }",
+        "stringified_no_func": " () { [native code] }",
+        "func_name": ""
+      },
+      {
+          "type_of": "function",
+          "stringified": "function () { [native code] }",
+          "stringified_no_name": "function () { [native code] }",
+          "stringified_no_func": " () { [native code] }",
+          "func_name": "get window"
+      }
+    ],
+    "navigator_property_checks": [
+      [
+        "SL/NgizWILql4kYpHzyFS8v6FynjaEPBVdlfWIQ2RxA=",
+        "SET_KEY"
+      ],
+      [
+        "SL/NgizWILql4kYpHzyFS8v6Fyn4aFTBQdlKWKo2YhC0it0dFDY=",
+        "SET_KEY"
+      ],
+      [
+        "SL/NgizWILql4kYpHzyFS8v6Fyn5aF3BS9lCWIM2UxCSivsdMjY=",
+        "SET_KEY"
+      ],
+      [
+        "Ub/QgiXWJ7qp4nQpLTy3S9j6LynfaHPBZdlsWA==",
+        "SET_KEY"
+      ],
+      [
+        "Ur/Zgj3WLLq84lcpFDyGS+X6Byn1aEDBVNlDWA==",
+        "SET_KEY"
+      ],
+      [
+        "SL/NgizWILql4kYpHzyFS8v6Fyn9aFnBU9lZWJo2ShCeivcdDjZ03nx9cSZKv42ChdaXuq7iKSnHPA==",
+        "SET_KEY"
+      ],
+      [
+        "Ub/QgiXWJ7qp4nQpPjyuS+b6NSnWaGHBeNl7WKo2bxCsitId",
+        "SET_KEY"
+      ],
+      [
+        "SL/NgizWILql4kYpHzyFS8v6FynxaFHBX9lYWI82WxCwitkdDjZ03mB9dyY=",
+        "SET_KEY"
+      ],
+      [
+        "SL/NgizWILql4kYpHzyFS8v6FynlaEXBT9lMWJE2UxCGiuMdNjZN3lh9",
+        "SET_KEY"
+      ]
+    ],
+    "shifted_value": 0,
+    "version_state": "beta",
+    "version_num": 28
+  }

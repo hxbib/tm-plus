@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ticketmaster+</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#00E57A;--g2:#00B85E;--g3:#00FF99;--g-dim:rgba(0,229,122,.08);
+  --c:#00D4FF;--c2:rgba(0,212,255,.07);
+  --r:#FF4466;--r2:rgba(255,68,102,.08);
+  --y:#FFB800;--y2:rgba(255,184,0,.08);
+  --bg:#06090C;--s1:#0C1117;--s2:#111820;--s3:#161F29;
+  --b:rgba(0,229,122,.1);--b2:rgba(255,255,255,.04);--b3:rgba(0,229,122,.05);
+  --t:#BDD4E8;--t2:#6B8CA8;--t3:#3A5570;--t4:#1C2D40;
+  --mono:ui-monospace,'Cascadia Code','Fira Code','JetBrains Mono',monospace;
+  --sans:-apple-system,'Segoe UI',system-ui,sans-serif;
+  --r1:4px;--r2:6px;
+}
+body{
+  width:410px;font-family:var(--sans);background:var(--bg);
+  color:var(--t);overflow:hidden;-webkit-font-smoothing:antialiased;
+  line-height:1;
+}
+
+.scan-hdr{
+  height:3px;background:linear-gradient(90deg,transparent 0%,var(--g) 30%,var(--c) 70%,transparent 100%);
+  opacity:.8;
+}
+
+.wrap{padding:10px 12px 8px}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.brand{display:flex;align-items:center;gap:7px}
+.logo-box{
+  width:28px;height:28px;border-radius:var(--r1);overflow:hidden;
+  border:1px solid var(--b);background:var(--s1);flex-shrink:0;
+}
+.logo-box img{width:100%;height:100%;object-fit:cover;display:block}
+.brand-text{display:flex;flex-direction:column;gap:1px}
+.bname{
+  font-size:12px;font-weight:700;letter-spacing:-.1px;color:#fff;
+  font-family:var(--mono);
+}
+.bname em{color:var(--g);font-style:normal}
+.bsub{font-size:7px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;font-weight:600}
+.ver-tag{
+  font-family:var(--mono);font-size:8px;font-weight:700;color:var(--g);
+  background:var(--g-dim);border:1px solid var(--b);border-radius:var(--r1);
+  padding:3px 7px;letter-spacing:.3px;
+}
+
+.status-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--s1);border:1px solid var(--b2);border-radius:var(--r2);
+  padding:7px 10px;margin-bottom:8px;position:relative;overflow:hidden;
+}
+.status-bar::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--sb-color, var(--t4));transition:background .3s;
+}
+.status-bar.st-idle::before{background:var(--t4)}
+.status-bar.st-run::before{background:var(--g);box-shadow:0 0 8px var(--g)}
+.status-bar.st-done::before{background:var(--g)}
+.status-bar.st-banked::before{background:var(--c)}
+.status-bar.st-error::before{background:var(--r)}
+
+.st-left{display:flex;align-items:center;gap:6px}
+.st-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.st-idle .st-dot{background:var(--t4)}
+.st-run .st-dot{background:var(--g);animation:blink 1.2s ease-in-out infinite;box-shadow:0 0 5px var(--g)}
+.st-done .st-dot{background:var(--g)}
+.st-banked .st-dot{background:var(--c)}
+.st-error .st-dot{background:var(--r)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+.st-label{font-size:10px;font-weight:700;font-family:var(--mono);letter-spacing:.3px}
+.st-idle .st-label{color:var(--t3)}
+.st-run .st-label{color:var(--g)}
+.st-done .st-label{color:var(--g)}
+.st-banked .st-label{color:var(--c)}
+.st-error .st-label{color:var(--r)}
+
+.st-right{display:flex;align-items:center;gap:8px}
+.bank-count{
+  display:flex;align-items:center;gap:3px;
+  font-family:var(--mono);font-size:9px;color:var(--t2);font-weight:600;
+}
+.bank-count strong{font-size:13px;font-weight:800;color:var(--g);font-variant-numeric:tabular-nums}
+
+.metrics{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:4px;margin-bottom:8px}
+.mc{
+  background:var(--s1);border:1px solid var(--b2);border-radius:var(--r2);
+  padding:8px 10px;display:flex;align-items:center;gap:8px;
+}
+.mc-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center;filter:grayscale(1);opacity:.5;transition:all .3s}
+.mc-icon.active{filter:none;opacity:1}
+.mc-data{display:flex;flex-direction:column;gap:1px;min-width:0}
+.mv{
+  font-size:17px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
+  font-family:var(--mono);color:var(--t4);transition:color .3s;
+}
+.mv.lit{color:#fff}
+.mv.grn{color:var(--g)}
+.mv.cyn{color:var(--c)}
+.ml{font-size:7px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-top:2px}
+
+.prog{margin-bottom:8px}
+.prog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.prog-label{font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+.prog-pct{font-family:var(--mono);font-size:12px;font-weight:800;color:var(--g);font-variant-numeric:tabular-nums}
+.prog-track{
+  height:5px;background:var(--s2);border-radius:0;
+  border:1px solid var(--b2);overflow:hidden;position:relative;
+}
+.prog-fill{
+  height:100%;width:0%;background:linear-gradient(90deg,var(--g2),var(--g),var(--g3));
+  transition:width .4s cubic-bezier(.4,0,.2,1);position:relative;
+}
+.prog-fill::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:2px;
+  background:#fff;opacity:.5;
+}
+.prog-fill.done{background:linear-gradient(90deg,var(--g2),var(--g))}
+.prog-sub{display:flex;justify-content:space-between;margin-top:3px}
+.prog-d{font-family:var(--mono);font-size:8px;color:var(--t3);font-variant-numeric:tabular-nums}
+
+.ctrl{display:flex;align-items:stretch;gap:5px;margin-bottom:8px}
+.tgt-wrap{
+  display:flex;align-items:center;gap:5px;background:var(--s1);
+  border:1px solid var(--b2);border-radius:var(--r2);padding:0 8px;
+  flex-shrink:0;
+}
+.tgt-wrap:focus-within{border-color:var(--g)}
+.tgt-lbl{font-size:7px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.tgt-input{
+  width:46px;background:transparent;border:none;
+  color:var(--g);font-family:var(--mono);font-size:12px;font-weight:800;
+  text-align:center;outline:none;padding:2px 0;
+}
+.btn{
+  flex:1;padding:9px 10px;border:none;border-radius:var(--r2);
+  font-size:10px;font-weight:800;cursor:pointer;color:#000;
+  letter-spacing:.5px;text-transform:uppercase;font-family:var(--mono);
+  transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.btn:active:not(:disabled){transform:scale(.97)}
+.btn:disabled{opacity:.25;cursor:not-allowed}
+.btn-go{background:var(--g);color:#000}
+.btn-go:hover:not(:disabled){background:var(--g3);box-shadow:0 0 16px rgba(0,229,122,.35)}
+.btn-stop{background:var(--r);color:#fff}
+.btn-stop:hover:not(:disabled){background:#FF6680;box-shadow:0 0 16px rgba(255,68,102,.35)}
+.hidden{display:none!important}
+
+.panel{
+  background:var(--s1);border:1px solid var(--b2);
+  border-radius:var(--r2);margin-bottom:5px;overflow:hidden;
+}
+.panel-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 8px;border-bottom:1px solid var(--b2);
+}
+.panel-title{
+  font-size:7px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;color:var(--t3);font-family:var(--mono);
+}
+.panel-right{display:flex;align-items:center;gap:4px}
+.panel-meta{font-family:var(--mono);font-size:8px;color:var(--t2);font-variant-numeric:tabular-nums}
+.sep{width:1px;height:10px;background:var(--b2);margin:0 1px}
+
+.hbtn{
+  background:none;border:none;cursor:pointer;color:var(--t4);
+  padding:3px;display:flex;align-items:center;border-radius:3px;
+  transition:color .15s,background .15s;
+}
+.hbtn:hover{background:var(--b2)}
+.hbtn.cp:hover{color:var(--g)}
+.hbtn.ex:hover{color:var(--y)}
+.hbtn.dl:hover{color:var(--r)}
+.hbtn svg{width:10px;height:10px}
+
+.log-body{
+  height:76px;overflow-y:auto;padding:2px 0;
+  font-family:var(--mono);font-size:9px;line-height:1.6;contain:strict;
+}
+.log-body::-webkit-scrollbar{width:3px}
+.log-body::-webkit-scrollbar-track{background:transparent}
+.log-body::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px}
+
+.le{padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.le.found{color:var(--g)}
+.le.fail{color:var(--y)}
+.le.err{color:var(--r)}
+.le.info{color:var(--t4)}
+.le.hl{color:var(--c)}
+.le.cycle{color:var(--t4)}
+.le.sep{color:var(--t4);text-align:center}
+
+.bank-body{
+  height:56px;overflow-y:auto;padding:2px 0;
+  font-family:var(--mono);font-size:8.5px;line-height:1.55;contain:strict;
+}
+.bank-body::-webkit-scrollbar{width:3px}
+.bank-body::-webkit-scrollbar-track{background:transparent}
+.bank-body::-webkit-scrollbar-thumb{background:rgba(0,229,122,.1);border-radius:2px}
+.be{padding:1px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t2);display:flex;gap:5px}
+.be .idx{color:var(--t3);min-width:20px;flex-shrink:0}
+.be .val{color:var(--g);overflow:hidden;text-overflow:ellipsis}
+.bank-empty{color:var(--t4);font-size:8.5px;text-align:center;padding:14px 8px;font-style:italic}
+
+.stats{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:4px}
+.stat{
+  display:flex;align-items:center;gap:4px;padding:4px 10px;
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  color:var(--t3);font-variant-numeric:tabular-nums;
+  border-right:1px solid var(--b2);
+}
+.stat:last-child{border-right:none}
+.stat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.stat-dot.g{background:var(--g)}.stat-dot.y{background:var(--y)}.stat-dot.r{background:var(--r)}
+.stat strong{color:var(--t)}
+
+.footer{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:1px 0 2px;
+}
+.footer span{font-size:7px;color:var(--t4);letter-spacing:.3px;font-weight:600;font-family:var(--mono)}
+.footer .sep2{color:var(--t4)}
+
+.toast{
+  position:fixed;bottom:8px;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--s2);border:1px solid var(--b);border-radius:var(--r2);
+  padding:6px 14px;font-family:var(--mono);font-size:10px;font-weight:700;
+  color:var(--g);box-shadow:0 4px 20px rgba(0,0,0,.7),0 0 20px rgba(0,229,122,.08);
+  transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .25s;
+  opacity:0;z-index:999;pointer-events:none;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.warn{color:var(--y);border-color:rgba(255,184,0,.2)}
+.toast.err{color:var(--r);border-color:rgba(255,68,102,.2)}
+</style>
+</head>
+<body>
+<div class="scan-hdr"></div>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="brand">
+      <div class="logo-box"><img src="icons/tm128.png" alt="t+"></div>
+      <div class="brand-text">
+        <div class="bname">Ticketmaster<em>+</em></div>
+        <div class="bsub">Cookie Harvester</div>
+      </div>
+    </div>
+    <span class="ver-tag">v5.23.25</span>
+  </div>
+
+  <div class="status-bar st-idle" id="status-bar">
+    <div class="st-left">
+      <div class="st-dot" id="dot"></div>
+      <span class="st-label" id="pill-t">READY</span>
+    </div>
+    <div class="st-right">
+      <div class="bank-count">BANK&nbsp;<strong id="bank-c">0</strong></div>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="mc">
+      <div class="mc-icon" id="icon-rate">⚡</div>
+      <div class="mc-data">
+        <div class="mv" id="m-rate">—</div>
+        <div class="ml">Per Min</div>
+      </div>
+    </div>
+    <div class="mc">
+      <div class="mc-icon" id="icon-eta">⏳</div>
+      <div class="mc-data">
+        <div class="mv" id="m-eta">—</div>
+        <div class="ml">ETA</div>
+      </div>
+    </div>
+    <div class="mc">
+      <div class="mc-icon" id="icon-elapsed">🕐</div>
+      <div class="mc-data">
+        <div class="mv" id="m-elapsed">—</div>
+        <div class="ml">Elapsed</div>
+      </div>
+    </div>
+    <div class="mc">
+      <div class="mc-icon" id="icon-cycles">🔄</div>
+      <div class="mc-data">
+        <div class="mv" id="m-cycles">0</div>
+        <div class="ml">Cycles</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prog">
+    <div class="prog-row">
+      <span class="prog-label">Progress</span>
+      <span class="prog-pct" id="pct">0%</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="fill"></div></div>
+    <div class="prog-sub">
+      <span class="prog-d" id="p-left">0 / 100</span>
+      <span class="prog-d" id="p-right">—</span>
+    </div>
+  </div>
+
+  <div class="ctrl">
+    <div class="tgt-wrap">
+      <span class="tgt-lbl">Target</span>
+      <input type="number" class="tgt-input" id="tgt" value="100" min="1" max="5000">
+    </div>
+    <button class="btn btn-go" id="start-btn">▶ START HARVEST</button>
+    <button class="btn btn-stop hidden" id="stop-btn">■ STOP</button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title">Activity Log</span>
+      <div class="panel-right">
+        <span class="panel-meta" id="log-m">0 entries</span>
+        <div class="sep"></div>
+        <button class="hbtn cp" id="copy-log-btn" title="Copy log">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <button class="hbtn dl" id="clear-log-btn" title="Clear logs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="log-body" id="log-b"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-hdr">
+      <span class="panel-title">Cookie Bank</span>
+      <div class="panel-right">
+        <span class="panel-meta" id="bank-m">0 stored</span>
+        <div class="sep"></div>
+        <button class="hbtn cp" id="copy-btn" title="Copy bank to clipboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <button class="hbtn ex" id="export-btn" title="Export as JSON">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </button>
+        <button class="hbtn cp" id="inject-btn" title="Inject to Config">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="hbtn dl" id="clear-btn" title="Clear bank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="bank-body" id="bank-b"><div class="bank-empty">No cookies yet</div></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-dot g"></div><strong id="s-ok">0</strong>&nbsp;captured</div>
+    <div class="stat"><div class="stat-dot y"></div><strong id="s-dup">0</strong>&nbsp;dups</div>
+    <div class="stat"><div class="stat-dot r"></div><strong id="s-fail">0</strong>&nbsp;failed</div>
+  </div>
+
+  <div class="footer">
+    <span>Ticketmaster+ v5.23.25</span>
+    <span class="sep2">·</span>
+    <span>by Habib</span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="popup.js"></script>
+</body>
+</html>

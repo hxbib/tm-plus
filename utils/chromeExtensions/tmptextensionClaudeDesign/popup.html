@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-colorway="cream">
+<head>
+<meta charset="utf-8">
+<title>Cookie Ledger</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="perforation"></div>
+
+<header class="head">
+  <div class="wordmark">Cookie<span class="amp">&amp;</span>Co.</div>
+  <div class="meta">
+    <span>Ledger v5.23.25</span>
+    <span class="dot">·</span>
+    <span id="meta-status">open for orders</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Cookies banked</div>
+    <div class="hero-num">
+      <span id="hero-count">00</span><span class="of">/ <span id="hero-target">100</span></span>
+    </div>
+    <div class="hero-cap" id="hero-cap">The jar is empty. <b>Begin a fresh batch.</b></div>
+    <div class="hero-progress">
+      <div class="hero-progress-track"><div class="hero-progress-fill" id="prog-fill"></div></div>
+      <div class="hero-progress-meta">
+        <span id="prog-pct">0%</span>
+        <span id="prog-last">last cookie · —</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="jar-stage">
+      <svg class="jar-svg" viewBox="0 0 280 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="glassBody" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0"   stop-color="rgba(255,255,255,.55)"/>
+            <stop offset=".25" stop-color="rgba(255,255,255,.08)"/>
+            <stop offset=".75" stop-color="rgba(255,255,255,.05)"/>
+            <stop offset="1"   stop-color="rgba(255,255,255,.28)"/>
+          </linearGradient>
+          <linearGradient id="glassShade" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"   stop-color="rgba(0,0,0,.18)"/>
+            <stop offset=".15" stop-color="rgba(0,0,0,0)"/>
+            <stop offset=".85" stop-color="rgba(0,0,0,0)"/>
+            <stop offset="1"   stop-color="rgba(0,0,0,.22)"/>
+          </linearGradient>
+          <linearGradient id="scaleMetal" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="var(--ink-soft)"/>
+            <stop offset="1" stop-color="var(--ink)"/>
+          </linearGradient>
+        </defs>
+
+        <ellipse cx="140" cy="344" rx="140" ry="14" fill="rgba(0,0,0,.22)"/>
+        <rect x="20" y="298" width="240" height="44" rx="10" fill="url(#scaleMetal)" stroke="var(--ink)" stroke-width="1"/>
+        <rect x="48" y="306" width="184" height="28" rx="14" fill="var(--paper)" stroke="var(--ink)" stroke-width="1"/>
+        <g id="dial-ticks"></g>
+        <g id="needle-group" transform="translate(140 326)">
+          <line x1="0" y1="0" x2="0" y2="-18" stroke="var(--brick)" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <circle cx="140" cy="326" r="2.4" fill="var(--ink)"/>
+        <text id="needle-label" x="140" y="316" text-anchor="middle"
+              font-family="ui-monospace, monospace" font-size="6.5" font-weight="700"
+              letter-spacing=".18em" fill="var(--ink-mute)">0/100</text>
+        <rect x="36"  y="340" width="14" height="6" rx="2" fill="var(--ink)"/>
+        <rect x="230" y="340" width="14" height="6" rx="2" fill="var(--ink)"/>
+
+        <ellipse cx="140" cy="298" rx="110" ry="9" fill="rgba(0,0,0,.22)"/>
+
+        <rect x="30" y="70" width="220" height="220" rx="10" fill="url(#glassBody)"
+              stroke="var(--glass-edge)" stroke-width="1.4"/>
+        <rect x="30" y="70" width="220" height="220" rx="10" fill="url(#glassShade)" pointer-events="none"/>
+
+        <g id="jar-ticks"></g>
+
+        <rect x="42" y="76"  width="6" height="208" rx="3" fill="rgba(255,255,255,.34)" opacity=".7"/>
+        <rect x="228" y="84" width="3" height="192" rx="1.5" fill="rgba(255,255,255,.18)"/>
+      </svg>
+
+      <div class="jar-overlay">
+        <div class="jar-cookies" id="jar-cookies"></div>
+        <div class="jar-lid" id="jar-lid">
+          <div class="jar-lid-knob"></div>
+          <div class="jar-lid-handle"></div>
+          <div class="jar-lid-disc"><div class="jar-lid-shine"></div></div>
+          <div class="jar-lid-gasket"></div>
+        </div>
+        <div class="jar-overflow" id="jar-overflow" hidden>+0</div>
+      </div>
+
+      <div class="jar-stamp" id="jar-stamp">
+        <div class="jar-stamp-ring">
+          <div class="jar-stamp-inner">
+            <div class="jar-stamp-top">Bank</div>
+            <div class="jar-stamp-mid">FULL</div>
+            <div class="jar-stamp-bot"><span id="stamp-target">100</span> cookies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-l">Rate</div><div class="stat-v dim" id="stat-rate">—</div></div>
+  <div class="stat"><div class="stat-l">Elapsed</div><div class="stat-v dim" id="stat-elapsed">—</div></div>
+  <div class="stat"><div class="stat-l">Est. finish</div><div class="stat-v dim" id="stat-eta">—</div></div>
+  <div class="stat"><div class="stat-l">Cycles</div><div class="stat-v dim" id="stat-cycles">—</div></div>
+</div>
+
+<div class="form">
+  <div class="field">
+    <label class="field-l" for="target-input">The order</label>
+    <input id="target-input" class="field-i" type="number" min="1" max="5000" value="100">
+    <div class="field-stepper" id="stepper">
+      <button data-step="25">25</button>
+      <button data-step="100" class="on">100</button>
+      <button data-step="250">250</button>
+      <button data-step="500">500</button>
+      <button data-step="1000">1000</button>
+    </div>
+  </div>
+  <button id="bake-btn" class="bake">Bake</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" data-tab="feed"><span class="tab-l">Feed</span><span class="tab-c" id="tab-c-feed">0</span></button>
+  <button class="tab"    data-tab="bank"><span class="tab-l">Bank</span><span class="tab-c" id="tab-c-bank">0</span></button>
+  <button class="tab"    data-tab="log"><span class="tab-l">Log</span><span class="tab-c" id="tab-c-log">0</span></button>
+  <div class="tab-act" id="tab-act"></div>
+</div>
+
+<div class="panel-body" id="panel-body">
+  <div class="feed-empty">No cookies in the jar yet. Click <b>Bake</b> to begin.</div>
+</div>
+
+<footer class="foot">
+  <div class="crumbs">
+    <span><b id="foot-found">0</b> found</span>
+    <span class="sep">·</span>
+    <span><b id="foot-dup">0</b> dups</span>
+    <span class="sep">·</span>
+    <span><b id="foot-fail">0</b> fails</span>
+  </div>
+  <button id="inject-btn" class="pull">Inject to Config ⬆</button>
+  <button id="pull-btn" class="pull">Pull batch ↘</button>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="colorway-pick" role="radiogroup" aria-label="Colorway">
+  <button class="cw-cream on"  data-cw="cream"    aria-label="cream"></button>
+  <button class="cw-charcoal"  data-cw="charcoal" aria-label="charcoal"></button>
+  <button class="cw-sage"      data-cw="sage"     aria-label="sage"></button>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=320">
+<title>Ticketmaster+ Cookie Harvester</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0a0a0a;--s1:#111;--s2:#1a1a1a;--s3:#222;
+--bdr:#2a2a2a;--bdr-h:#3a3a3a;
+--txt:#f5f5f5;--txt2:#999;--dim:#555;--dim2:#333;
+--accent:#0ea5e9;--accent-l:#38bdf8;--accent-d:#0284c7;
+--ok:#22c55e;--warn:#eab308;--err:#ef4444;
+--mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+--sans:system-ui,-apple-system,sans-serif
+}
+html{font-size:13px}
+body{width:320px;min-height:400px;font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hidden}
+
+.cmd-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--s1);border-bottom:1px solid var(--bdr)}
+.cmd-left{display:flex;align-items:center;gap:8px}
+.cmd-logo{width:24px;height:24px;border-radius:4px;overflow:hidden}
+.cmd-logo img{width:100%;height:100%}
+.cmd-title{font-size:11px;font-weight:700;letter-spacing:-.02em}
+.cmd-title span{color:var(--accent)}
+.cmd-ver{font-size:9px;color:var(--dim);font-weight:600;padding:2px 6px;background:var(--s2);border-radius:4px}
+
+.status-strip{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--s2);border-bottom:1px solid var(--bdr)}
+.status-pulse{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.status-pulse.idle{background:var(--dim)}
+.status-pulse.running{background:var(--accent);animation:pulse 1.2s ease infinite}
+.status-pulse.done{background:var(--ok)}
+.status-pulse.error{background:var(--err)}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(14,165,233,.4)}50%{opacity:.6;box-shadow:0 0 0 4px rgba(14,165,233,0)}}
+.status-label{font-size:10px;font-weight:600;color:var(--txt2);flex:1}
+.status-label.running{color:var(--accent)}
+.status-label.done{color:var(--ok)}
+.status-label.error{color:var(--err)}
+.status-bank{font-size:11px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+
+.main{display:grid;grid-template-columns:1fr;gap:0}
+
+.ring-section{display:flex;align-items:center;justify-content:center;padding:16px 12px;background:var(--s1);border-bottom:1px solid var(--bdr);gap:16px}
+.ring-wrap{position:relative;width:80px;height:80px}
+.ring-svg{width:80px;height:80px;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:var(--s3);stroke-width:6}
+.ring-fill{fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:round;stroke-dasharray:226.2;stroke-dashoffset:226.2;transition:stroke-dashoffset .4s ease}
+.ring-fill.complete{stroke:var(--ok)}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.ring-label{font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.ring-stats{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ring-stat{background:var(--s2);border:1px solid var(--bdr);border-radius:6px;padding:8px;text-align:center}
+.ring-stat-val{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--txt)}
+.ring-stat-val.dim{color:var(--dim)}
+.ring-stat-val.on{color:var(--accent)}
+.ring-stat-lbl{font-size:7px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-top:2px}
+
+.controls{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--s2);border-bottom:1px solid var(--bdr)}
+.ctrl-target{display:flex;align-items:center;gap:4px;background:var(--s1);border:1px solid var(--bdr);border-radius:6px;padding:6px 8px;flex-shrink:0}
+.ctrl-target:focus-within{border-color:var(--accent)}
+.ctrl-target-lbl{font-size:8px;color:var(--dim);font-weight:700;text-transform:uppercase}
+.ctrl-target-input{width:44px;background:transparent;border:none;color:var(--txt);font-size:12px;font-weight:700;text-align:center;outline:none;font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.ctrl-target-input:disabled{color:var(--dim);cursor:not-allowed}
+.ctrl-btn{flex:1;padding:10px;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.3px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:4px}
+.ctrl-btn:active:not(:disabled){transform:scale(.97)}
+.ctrl-btn:disabled{opacity:.3;cursor:not-allowed}
+.ctrl-btn-start{background:var(--accent);color:#fff}
+.ctrl-btn-start:hover:not(:disabled){background:var(--accent-l)}
+.ctrl-btn-stop{background:var(--err);color:#fff}
+.ctrl-btn-stop:hover:not(:disabled){background:#dc2626}
+.hidden{display:none!important}
+
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:4px 12px;background:var(--s1);border-bottom:1px solid var(--bdr);font-size:9px;color:var(--dim)}
+.info-row span{font-variant-numeric:tabular-nums}
+
+.feed-section{display:flex;flex-direction:column;min-height:0;flex:1}
+.feed-tabs{display:flex;background:var(--s2);border-bottom:1px solid var(--bdr)}
+.feed-tab{flex:1;padding:6px 8px;background:transparent;border:none;font-size:9px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.3px;cursor:pointer;transition:all .15s;border-bottom:2px solid transparent}
+.feed-tab:hover{color:var(--txt2)}
+.feed-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.feed-tab-badge{display:inline-block;min-width:14px;padding:1px 4px;background:var(--s3);border-radius:8px;font-size:8px;margin-left:4px;font-variant-numeric:tabular-nums}
+.feed-tab.active .feed-tab-badge{background:rgba(14,165,233,.15);color:var(--accent)}
+
+.feed-panel{display:none;flex-direction:column;min-height:0}
+.feed-panel.active{display:flex;flex:1}
+.feed-header{display:flex;align-items:center;justify-content:space-between;padding:4px 12px;background:var(--s1)}
+.feed-meta{font-size:8px;color:var(--dim);font-variant-numeric:tabular-nums}
+.feed-actions{display:flex;gap:2px}
+.feed-btn{width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--dim);border-radius:4px;transition:all .1s}
+.feed-btn:hover{background:var(--s3);color:var(--txt2)}
+.feed-btn.danger:hover{color:var(--err)}
+.feed-btn.export:hover{color:var(--warn)}
+.feed-btn svg{width:10px;height:10px}
+.feed-body{height:100px;overflow-y:auto;font-family:var(--mono);font-size:10px;line-height:1.5;padding:4px 0}
+.feed-body::-webkit-scrollbar{width:4px}
+.feed-body::-webkit-scrollbar-track{background:transparent}
+.feed-body::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+
+.log-e{padding:1px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log-e.found{color:var(--ok)}
+.log-e.fail{color:var(--warn)}
+.log-e.err{color:var(--err)}
+.log-e.info{color:var(--dim)}
+.log-e.hl{color:var(--accent)}
+.log-e.cycle{color:var(--dim2)}
+.log-e.sep{color:var(--dim2);text-align:center}
+
+.bank-e{padding:2px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt2)}
+.bank-e .idx{color:var(--dim);margin-right:4px;font-weight:700}
+.bank-e .val{color:var(--ok)}
+.bank-empty{color:var(--dim);font-size:10px;text-align:center;padding:24px 12px;font-family:var(--sans);font-style:italic}
+
+.footer-stats{display:flex;justify-content:center;gap:12px;padding:6px 12px;background:var(--s2);border-top:1px solid var(--bdr)}
+.stat-item{display:flex;align-items:center;gap:3px;font-size:9px;font-weight:600;color:var(--dim)}
+.stat-dot{width:5px;height:5px;border-radius:50%}
+.stat-dot.g{background:var(--ok)}
+.stat-dot.y{background:var(--warn)}
+.stat-dot.r{background:var(--err)}
+.stat-item span{font-variant-numeric:tabular-nums}
+
+.footer{text-align:center;padding:4px 0;font-size:8px;color:var(--dim2)}
+.footer span{color:var(--accent-d)}
+
+.toast{position:fixed;bottom:8px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--s3);border:1px solid var(--bdr-h);border-radius:6px;padding:6px 14px;font-size:10px;font-weight:600;color:var(--ok);box-shadow:0 4px 20px rgba(0,0,0,.5);transition:all .2s;opacity:0;z-index:999;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<div class="cmd-bar">
+<div class="cmd-left">
+<div class="cmd-logo"><img src="icons/tm128.png" alt="t+" loading="eager"></div>
+<div class="cmd-title">Ticketmaster<span>+</span> Cookie Harvester</div>
+</div>
+<span class="cmd-ver">v5.23.25</span>
+</div>
+
+<div class="status-strip">
+<div class="status-pulse idle" id="statusPulse"></div>
+<span class="status-label" id="statusLabel">Ready</span>
+<span class="status-bank" id="statusBank">0</span>
+</div>
+
+<div class="ring-section">
+<div class="ring-wrap">
+<svg class="ring-svg" viewBox="0 0 80 80">
+<circle class="ring-track" cx="40" cy="40" r="36"/>
+<circle class="ring-fill" id="ringFill" cx="40" cy="40" r="36"/>
+</svg>
+<div class="ring-center">
+<span class="ring-pct" id="ringPct">0%</span>
+<span class="ring-label">Progress</span>
+</div>
+</div>
+<div class="ring-stats">
+<div class="ring-stat"><div class="ring-stat-val dim" id="sRate">--</div><div class="ring-stat-lbl">Per Min</div></div>
+<div class="ring-stat"><div class="ring-stat-val dim" id="sEta">--</div><div class="ring-stat-lbl">ETA</div></div>
+<div class="ring-stat"><div class="ring-stat-val dim" id="sElapsed">--</div><div class="ring-stat-lbl">Elapsed</div></div>
+<div class="ring-stat"><div class="ring-stat-val dim" id="sCycles">0</div><div class="ring-stat-lbl">Cycles</div></div>
+</div>
+</div>
+
+<div class="controls">
+<div class="ctrl-target">
+<span class="ctrl-target-lbl">Target</span>
+<input type="number" class="ctrl-target-input" id="targetInput" value="100" min="1" max="5000">
+</div>
+<button class="ctrl-btn ctrl-btn-start" id="startBtn">Start</button>
+<button class="ctrl-btn ctrl-btn-stop hidden" id="stopBtn">Stop</button>
+</div>
+
+<div class="info-row">
+<span id="infoLeft">0 / 100</span>
+<span id="infoRight">--</span>
+</div>
+
+<div class="feed-section">
+<div class="feed-tabs">
+<button class="feed-tab active" data-panel="log">Log<span class="feed-tab-badge" id="logBadge">0</span></button>
+<button class="feed-tab" data-panel="bank">Bank<span class="feed-tab-badge" id="bankBadge">0</span></button>
+</div>
+
+<div class="feed-panel active" id="panelLog">
+<div class="feed-header">
+<span class="feed-meta" id="logMeta">0 entries</span>
+<div class="feed-actions">
+<button class="feed-btn" id="copyLogBtn" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+<button class="feed-btn danger" id="clearLogBtn" title="Clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>
+</div>
+</div>
+<div class="feed-body" id="logBody"></div>
+</div>
+
+<div class="feed-panel" id="panelBank">
+<div class="feed-header">
+<span class="feed-meta" id="bankMeta">0 stored</span>
+<div class="feed-actions">
+<button class="feed-btn" id="copyBankBtn" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+<button class="feed-btn export" id="exportBtn" title="Export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+<button class="feed-btn" id="injectBtn" title="Inject to Config"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+<button class="feed-btn danger" id="clearBankBtn" title="Clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>
+</div>
+</div>
+<div class="feed-body" id="bankBody"><div class="bank-empty">No cookies harvested</div></div>
+</div>
+</div>
+
+<div class="footer-stats">
+<div class="stat-item"><div class="stat-dot g"></div><span id="statOk">0</span> ok</div>
+<div class="stat-item"><div class="stat-dot y"></div><span id="statDup">0</span> dup</div>
+<div class="stat-item"><div class="stat-dot r"></div><span id="statFail">0</span> fail</div>
+</div>
+
+<div class="footer">TM+ v5.23.25 <span>by Habib</span></div>
+
+<div class="toast" id="toast"></div>
+<script src="popup.js"></script>
+</body>
+</html>

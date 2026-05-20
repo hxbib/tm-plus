@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --tm:#026CDF;--tm-l:#1A8CFF;--tm-d:#0254B0;--tm-sky:#4DA3FF;--cyan:#00B4D8;
+    --bg:#020B18;--card:#0A1628;--card2:#0F1D35;
+    --bdr:rgba(2,108,223,.1);--bdr-s:rgba(255,255,255,.04);
+    --txt:#E8ECF4;--txt2:#8BA3C4;--dim:#4A6285;--dim2:#2D3F5E;
+    --ok:#10B981;--err:#EF4444;--warn:#F59E0B;
+    --r:10px;--rs:7px;
+    --f:'Inter',-apple-system,sans-serif;
+    --m:'JetBrains Mono','SF Mono',monospace;
+  }
+  body{width:440px;font-family:var(--f);background:var(--bg);color:var(--txt);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+  .bar{height:2px;background:linear-gradient(90deg,var(--tm-d),var(--tm),var(--tm-sky),var(--cyan),var(--tm));background-size:400% 100%;animation:sh 4s ease-in-out infinite}
+  @keyframes sh{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .wrap{padding:10px 14px 8px}
+
+  .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .brand{display:flex;align-items:center;gap:8px}
+  .logo{width:26px;height:26px;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(2,108,223,.2),0 0 0 1px rgba(2,108,223,.1)}
+  .logo img{width:100%;height:100%;object-fit:cover}
+  .bname{font-size:13px;font-weight:900;color:#fff;letter-spacing:-.3px;line-height:1}
+  .bname span{background:linear-gradient(135deg,var(--tm-sky),var(--tm-l));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .bsub{font-size:7.5px;color:var(--txt2);letter-spacing:.4px;font-weight:600;margin-top:1px}
+  .ver{font-size:8px;font-weight:700;color:var(--tm-l);background:rgba(2,108,223,.06);padding:3px 8px;border-radius:12px;border:1px solid rgba(2,108,223,.1)}
+
+  .status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+  .pill{font-size:9px;font-weight:700;padding:3px 9px;border-radius:12px;display:flex;align-items:center;gap:4px;transition:all .3s}
+  .pill.idle{background:rgba(255,255,255,.03);color:var(--dim);border:1px solid var(--bdr-s)}
+  .pill.banked{background:rgba(2,108,223,.06);color:var(--tm-l);border:1px solid rgba(2,108,223,.1)}
+  .pill.run{background:rgba(2,108,223,.08);color:var(--tm-l);border:1px solid rgba(2,108,223,.15)}
+  .pill.done{background:rgba(16,185,129,.07);color:var(--ok);border:1px solid rgba(16,185,129,.15)}
+  .pill.error{background:rgba(239,68,68,.07);color:var(--err);border:1px solid rgba(239,68,68,.15)}
+  .dot{width:5px;height:5px;border-radius:50%}
+  .dot.idle{background:var(--dim2)}.dot.banked{background:var(--tm-l)}.dot.run{background:var(--tm-l);animation:pu 1.4s ease-in-out infinite}.dot.done{background:var(--ok)}.dot.error{background:var(--err)}
+  @keyframes pu{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+  .bank-lbl{font-size:10px;font-weight:700;color:var(--txt2);display:flex;align-items:center;gap:3px}
+  .bank-lbl .c{font-size:12px;font-weight:900;color:var(--tm-l);font-variant-numeric:tabular-nums}
+
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:7px}
+  .mc{background:var(--card);border:1px solid var(--bdr-s);border-radius:var(--rs);padding:7px 4px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+  .mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.7}
+  .mc.rate::before{background:linear-gradient(90deg,var(--tm),var(--tm-sky))}
+  .mc.eta::before{background:linear-gradient(90deg,var(--cyan),var(--ok))}
+  .mc.elapsed::before{background:linear-gradient(90deg,var(--tm-d),var(--tm))}
+  .mc.cycles::before{background:linear-gradient(90deg,var(--warn),#E67E22)}
+  .mv{font-size:16px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums;color:#fff}
+  .mv.dim{color:var(--dim2)}.mv.on{background:linear-gradient(135deg,var(--tm-l),var(--tm-sky));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .ml{font-size:7px;color:var(--dim);text-transform:uppercase;letter-spacing:.9px;font-weight:700;margin-top:2px}
+
+  .prog{margin-bottom:7px}
+  .prog-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+  .prog-l{font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;font-weight:700}
+  .prog-p{font-size:11px;color:var(--tm-l);font-weight:900;font-variant-numeric:tabular-nums}
+  .prog-t{width:100%;height:4px;background:rgba(255,255,255,.03);border-radius:8px;overflow:hidden}
+  .prog-f{height:100%;width:0%;background:linear-gradient(90deg,var(--tm-d),var(--tm),var(--tm-l));border-radius:8px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .prog-f.ok{background:linear-gradient(90deg,#059669,var(--ok))}
+  .prog-i{display:flex;justify-content:space-between;margin-top:2px}
+  .prog-d{font-size:8px;color:var(--dim);font-weight:600;font-variant-numeric:tabular-nums}
+
+  .ctrl{display:flex;align-items:center;gap:5px;margin-bottom:7px}
+  .tgt{display:flex;align-items:center;gap:4px;background:var(--card);border:1px solid var(--bdr-s);border-radius:var(--rs);padding:5px 7px}
+  .tgt:focus-within{border-color:var(--tm)}
+  .tgt-l{font-size:8px;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+  .tgt-i{width:48px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);border-radius:4px;color:var(--txt);font-family:var(--m);font-size:11px;font-weight:700;padding:3px 4px;text-align:center;outline:none}
+  .tgt-i:focus{border-color:var(--tm)}
+  .btn{flex:1;padding:8px 10px;border:none;border-radius:var(--rs);font-size:10px;font-weight:800;cursor:pointer;color:#fff;letter-spacing:.3px;text-transform:uppercase;transition:all .2s;font-family:var(--f);display:flex;align-items:center;justify-content:center;gap:4px}
+  .btn:active:not(:disabled){transform:scale(.97)}.btn:disabled{opacity:.3;cursor:not-allowed}
+  .btn-go{background:linear-gradient(135deg,var(--tm),var(--tm-d));box-shadow:0 2px 12px rgba(2,108,223,.2)}
+  .btn-go:hover:not(:disabled){background:linear-gradient(135deg,var(--tm-l),var(--tm));box-shadow:0 4px 24px rgba(2,108,223,.45);transform:translateY(-1px)}
+  .btn-stop{background:linear-gradient(135deg,#DC2626,var(--err));box-shadow:0 2px 12px rgba(239,68,68,.2)}
+  .btn-stop:hover:not(:disabled){background:linear-gradient(135deg,#F87171,#DC2626);box-shadow:0 4px 24px rgba(239,68,68,.45);transform:translateY(-1px)}
+  .hidden{display:none!important}
+
+  .panel{background:var(--card);border:1px solid var(--bdr-s);border-radius:var(--r);overflow:hidden;margin-bottom:6px}
+  .panel-h{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-bottom:1px solid var(--bdr-s);background:rgba(2,108,223,.02);flex-shrink:0}
+  .panel-t{font-size:7.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.9px;font-weight:700}
+  .panel-right{display:flex;align-items:center;gap:5px}
+  .panel-m{font-size:7.5px;color:var(--txt2);font-variant-numeric:tabular-nums;font-weight:700}
+
+  .hdr-btn{background:none;border:none;cursor:pointer;color:var(--dim2);padding:2px;display:flex;align-items:center;transition:color .2s}
+  .hdr-btn svg{width:10px;height:10px}
+  .hdr-btn.danger:hover{color:var(--err)}
+  .hdr-btn.action:hover{color:var(--tm-l)}
+  .hdr-btn.export:hover{color:var(--warn)}
+  .hdr-sep{width:1px;height:10px;background:rgba(255,255,255,.06)}
+
+  .log-body{height:72px;overflow-y:auto;padding:2px 0;font-family:var(--m);font-size:9px;line-height:1.55}
+  .log-body::-webkit-scrollbar{width:3px}
+  .log-body::-webkit-scrollbar-track{background:transparent}
+  .log-body::-webkit-scrollbar-thumb{background:rgba(2,108,223,.1);border-radius:3px}
+  .le{padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .le.found{color:var(--ok)}.le.fail{color:var(--warn)}.le.err{color:var(--err)}.le.info{color:var(--dim2)}.le.hl{color:var(--tm-l)}.le.cycle{color:var(--dim2)}.le.sep{color:var(--dim2);text-align:center}
+
+  .bank-body{height:55px;overflow-y:auto;padding:2px 0;font-family:var(--m);font-size:8.5px;line-height:1.5}
+  .bank-body::-webkit-scrollbar{width:3px}
+  .bank-body::-webkit-scrollbar-track{background:transparent}
+  .bank-body::-webkit-scrollbar-thumb{background:rgba(16,185,129,.1);border-radius:3px}
+  .be{padding:1px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt2)}
+  .be .idx{color:var(--dim);margin-right:3px}
+  .be .val{color:var(--ok)}
+  .bank-empty{color:var(--dim2);font-size:8.5px;text-align:center;padding:12px 8px;font-family:var(--f);font-style:italic}
+
+  .sf{display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 0 2px}
+  .si{display:flex;align-items:center;gap:2px;font-size:7.5px;font-weight:600;color:var(--dim2);font-variant-numeric:tabular-nums}
+  .sd{width:4px;height:4px;border-radius:50%}
+  .sd.g{background:var(--ok)}.sd.y{background:var(--warn)}.sd.r{background:var(--err)}
+  .ft{text-align:center;display:flex;align-items:center;justify-content:center;gap:4px;padding:2px 0}
+  .ft span{font-size:7.5px;color:var(--dim2);letter-spacing:.2px;font-weight:600}
+
+  .toast{position:fixed;bottom:8px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--card2);border:1px solid var(--bdr);border-radius:var(--rs);padding:6px 14px;font-size:10px;font-weight:700;color:var(--ok);box-shadow:0 6px 30px rgba(0,0,0,.6);transition:transform .3s,opacity .3s;opacity:0;z-index:999;pointer-events:none}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+</style>
+</head>
+<body>
+  <div class="bar"></div>
+  <div class="wrap">
+    <div class="hdr">
+      <div class="brand">
+        <div class="logo"><img src="icons/tm128.png" alt="t+"></div>
+        <div><div class="bname">Ticketmaster<span>+</span></div><div class="bsub">Cookie Harvester</div></div>
+      </div>
+      <span class="ver">v5.23.25</span>
+    </div>
+
+    <div class="status-row">
+      <div class="pill idle" id="pill"><div class="dot idle" id="dot"></div><span id="pill-t">Ready</span></div>
+      <div class="bank-lbl">Bank: <span class="c" id="bank-c">0</span></div>
+    </div>
+
+    <div class="metrics">
+      <div class="mc rate"><div class="mv dim" id="m-rate">—</div><div class="ml">Per Min</div></div>
+      <div class="mc eta"><div class="mv dim" id="m-eta">—</div><div class="ml">ETA</div></div>
+      <div class="mc elapsed"><div class="mv dim" id="m-elapsed">—</div><div class="ml">Elapsed</div></div>
+      <div class="mc cycles"><div class="mv dim" id="m-cycles">0</div><div class="ml">Cycles</div></div>
+    </div>
+
+    <div class="prog">
+      <div class="prog-h"><span class="prog-l">Progress</span><span class="prog-p" id="pct">0%</span></div>
+      <div class="prog-t"><div class="prog-f" id="fill"></div></div>
+      <div class="prog-i"><span class="prog-d" id="p-left">0 / 100</span><span class="prog-d" id="p-right">—</span></div>
+    </div>
+
+    <div class="ctrl">
+      <div class="tgt"><span class="tgt-l">🎯 Target</span><input type="number" class="tgt-i" id="tgt" value="100" min="1" max="5000"></div>
+      <button class="btn btn-go" id="start-btn">▶ Start Harvest</button>
+      <button class="btn btn-stop hidden" id="stop-btn">■ Stop</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h">
+        <span class="panel-t">Activity Log</span>
+        <div class="panel-right">
+          <span class="panel-m" id="log-m">0 entries</span>
+          <div class="hdr-sep"></div>
+          <button class="hdr-btn action" id="copy-log-btn" title="Copy log to clipboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="hdr-btn danger" id="clear-log-btn" title="Clear logs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="log-body" id="log-b"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h">
+        <span class="panel-t">Cookie Bank</span>
+        <div class="panel-right">
+          <span class="panel-m" id="bank-m">0 stored</span>
+          <div class="hdr-sep"></div>
+          <button class="hdr-btn action" id="copy-btn" title="Copy bank to clipboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="hdr-btn export" id="export-btn" title="Export as JSON file">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </button>
+          <button class="hdr-btn action" id="inject-btn" title="Inject to Config">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <button class="hdr-btn danger" id="clear-btn" title="Clear bank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="bank-body" id="bank-b"><div class="bank-empty">No cookies yet</div></div>
+    </div>
+
+    <div class="sf">
+      <div class="si"><div class="sd g"></div><span id="s-ok">0</span> captured</div>
+      <div class="si"><div class="sd y"></div><span id="s-dup">0</span> dups</div>
+      <div class="si"><div class="sd r"></div><span id="s-fail">0</span> failed</div>
+    </div>
+    <div class="ft"><span>Ticketmaster+ v5.23.25</span><span>·</span><span>by Habib</span></div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
