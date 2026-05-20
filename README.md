@@ -2,6 +2,12 @@
 
 A real-time artist/event monitoring system that tracks Ticketmaster attractions for specific "artists", detects new events and status changes as they happen, and alerts via Discord Webhook
 
+![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-Chrome%20Extension-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Rust](https://img.shields.io/badge/Rust-Performance%20Tooling-000000?style=for-the-badge&logo=rust&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-Extension%20Frontend-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-Extension%20Styling-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
 ---
 
 ## **Overview**
